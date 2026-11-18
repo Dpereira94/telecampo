@@ -14,8 +14,26 @@ def test_pagina_inicial(client):
     resposta = client.get("/")
 
     assert resposta.status_code == 200
-    assert resposta.json["projeto"] == "TeleCampo"
-    assert resposta.json["versao"] == "0.1.0"
+    assert b"TeleCampo" in resposta.data
+    assert b"Consulta de Atendimento FTTH" in resposta.data
+
+
+def test_consulta_atendimento_existente(client):
+    resposta = client.get("/?codigo=FTTH-2026-001")
+
+    assert resposta.status_code == 200
+    assert b"FTTH-2026-001" in resposta.data
+    assert b"PON-DEMO-001" in resposta.data
+    assert b"ABERTO" in resposta.data
+
+
+def test_consulta_atendimento_inexistente(client):
+    resposta = client.get("/?codigo=FTTH-9999")
+
+    assert resposta.status_code == 200
+    assert "Atendimento não localizado." in resposta.get_data(
+        as_text=True
+    )
 
 
 def test_verificacao_saude(client):
