@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeleCampo - Consulta FTTH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            color: #172b4d;
+        }
+        header {
+            background: #123b63;
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+        main {
+            max-width: 760px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000012;
+        }
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #64748b;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        input:focus-visible, button:focus-visible {
+            outline: 3px solid #f59e0b;
+            outline-offset: 3px;
+        }
+        button {
+            background: #123b63;
+            color: white;
+            padding: 13px 22px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            min-height: 44px;
+        }
+        .resultado {
+            margin-top: 24px;
+            padding: 16px;
+            background: #e8f2ff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TeleCampo</h1>
+        <p>Plataforma de Apoio ao Técnico de Campo</p>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>Consulta de Atendimento FTTH</h2>
+            <p>Informe o código do atendimento para consultar os dados da rede.</p>
+
+            <form method="GET" action="/">
+                <label for="codigo">Código do atendimento</label>
+                <input id="codigo" name="codigo"
+                       placeholder="Ex.: FTTH-2026-001"
+                       required maxlength="50">
+
+                <button type="submit">Consultar atendimento</button>
+            </form>
+
+            {% if atendimento %}
+            <div class="resultado" role="status">
+                <h3>Atendimento localizado</h3>
+                <p><strong>Código:</strong> {{ atendimento.codigo }}</p>
+                <p><strong>PON:</strong> {{ atendimento.pon }}</p>
+                <p><strong>Status:</strong> {{ atendimento.status }}</p>
+            </div>
+            {% elif mensagem %}
+            <div class="resultado" role="status">
+                <p>{{ mensagem }}</p>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
